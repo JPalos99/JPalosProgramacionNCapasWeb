@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
+      layout:decorate="~{layout}"> <html xmlns:th="http://www.thymeleaf.org"
+                                   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
+                                   layout:decorate="~{layout}"> 
+        <body layout:fragment="body"> 
+            <br>
+            <title>Inmueble</title> 
+            <br>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+            <form th:action="@{/imobiliaria/form}" method="post" th:object="${imuebles}" enctype="multipart/form-data">
+                <div  class="container">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <h3>Datos del imueble</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" th:field="*{idinmueble}">
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-house-add"></i></span>
+                                <input type="text" class="form-control" placeholder="Nombre"  id="nombre" name="nombre" th:field="*{nombre}" />        
+                            </div>
+                        </div>  
+                        <div class="col-md-3" >
+                            <div class="input-group mb-3" >
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-body-text"></i></span>
+                                <input type="text" class="form-control" placeholder="Descripcion"  id="txtdescripcion" name="descripcion"  th:field="*{descripcion}" /> 
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar"></i></span>
+                                <input type="text" class="form-control" placeholder="Precio"  id="txtprecio" name="precio" th:field="*{precio}" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-layout-wtf"></i></span>
+                                <input type="text" class="form-control" placeholder="Numero de Recamaras"  name="numerorecamara" th:field="*{numerorecamara}"  />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-layout-wtf"></i></span>
+                                <input type="text" class="form-control" placeholder="Numero de baños"  id="numerobanos" name="numerobanos" th:field="*{numerobanos}" />        
+                            </div>
+                        </div>  
+                        <div class="col-md-3" >
+                            <div class="input-group mb-3" >
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-explicit"></i></span>
+                                <input type="text" class="form-control" placeholder="Numero Estacionamientos"  id="numeroestacionamientos" name="numeroestacionamientos"  th:field="*{numeroestacionamientos}" /> 
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-moisture"></i></span>
+                                <input type="text" class="form-control" placeholder="Seperficie"  id="superficie" name="superficie" th:field="*{superficie}" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-moisture"></i></span>
+                                <input type="text" class="form-control" placeholder="Laditud"  name="laditud" th:field="*{laditud}"  />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                                <input type="text" class="form-control" placeholder="Logitud"  name="longitud" th:field="*{longitud}"  />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                                <input type="text" class="form-control" placeholder="Logitud"  name="longitud" th:field="*{longitud}"  />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                                <select class="form-select" aria-label="Default select example" name="antiguedad.idantiguedad" id="antiguedad" th:field="*{antiguedad.idantiguedad}" >
+                                    <option value="0">Seleccione la Antiguedad</option>
+                                    <option th:each="antiguedad : ${antiguedades}" th:value="${antiguedad.idantiguedad}" th:text="${antiguedad.nombre}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-exchange"></i></span>
+                                <select class="form-select" aria-label="Default select example" name="moneda.idmoneda" id="moneda" th:field="*{moneda.idmoneda}" >
+                                    <option value="0">Seleccione la Moneda</option>
+                                    <option th:each="moneda : ${monedas}" th:value="${moneda.idmoneda}" th:text="${moneda.nombre}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-layout-text-sidebar"></i></span>
+                                <select class="form-select" aria-label="Default select example" name="unidad.idunidad" id="unidad" th:field="*{unidad.idunidad}" >
+                                    <option value="0">Seleccione tipo de Unidad</option>
+                                    <option th:each="unidad : ${unidades}" th:value="${unidad.idunidad}" th:text="${unidad.nombre}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-layout-text-sidebar"></i></span>
+                                <select class="form-select" aria-label="Default select example" name="tipoinmueble.idtipoinmueble" id="tipoinmueble" th:field="*{tipoinmueble.idtipoinmueble}" >
+                                    <option value="0">Seleccione Tipo de Inmueble</option>
+                                    <option th:each="tipoinmueble : ${tipoinmuebles}" th:value="${tipoinmueble.idtipoinmueble}" th:text="${tipoinmueble.nnombre}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="from-goup">
+
+                                <input type="file" class="form-control"  name="imagenFile" id="imagenFile"  onchange="mostrarVistaPrevia()" />
+                            </div>
+                            <div class="from-goup"> 
+                                <img img id="vistaPrevia" th:if="*{imagen == null}"  src="/image/casaDefault.jpg" style="max-width: 40%;max-height: 200px;">    
+                                <img img id="vistaPrevia" th:if="*{imagen != null}" th:src="'data:img/html;base64,'+*{imagen}" style="max-width: 40%;max-height: 200px;"></img>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <input type="submit" value="Guardar" class="btn btn-success" />
+                    </div>
+            </form>
+        </body>
+    </html>
+
+
+    <script>
+
+        function mostrarVistaPrevia() {
+            var input = document.getElementById('imagenFile');
+            var vistaPrevia = document.getElementById('vistaPrevia');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    vistaPrevia.src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        }
+
+
+    </script>  

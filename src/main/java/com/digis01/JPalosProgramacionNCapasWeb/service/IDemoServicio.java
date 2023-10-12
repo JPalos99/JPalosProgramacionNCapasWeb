@@ -1,0 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package com.digis01.JPalosProgramacionNCapasWeb.service;
+
+import com.digis01.JPalosProgramacionNCapasWeb.entity.NumerosOperacion;
+import com.digis01.JPalosProgramacionNCapasWeb.entity.Resultado;
+
+/**
+ *
+ * @author digis
+ */
+public interface IDemoServicio {
+    Resultado Suma(NumerosOperacion numeros);
+    Resultado Resta(NumerosOperacion numeros);
+    Resultado Division(NumerosOperacion numeros);
+    Resultado Multipliacion(NumerosOperacion numeros);
+    
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
+      layout:decorate="~{layout}"> 
+    <body layout:fragment="body"> 
+        <title>Listado de Inmuebles</title>
+        <div class="container"> 
+           
+            <br>
+            <h1>Lista de Inmuebles</h1>
+            <br>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${0})}" class="btn btn-success">Agregar</a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <table id="myTable" class="table table-dark table-striped">
+                    <tr>
+                        <th scope="col">Eliminar</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Numero de Recamaras</th>
+                        <th scope="col">Numero de Baños</th>
+                        <th scope="col">Numero de Estacionamientos</th>
+                        <th scope="col">Superficie</th>
+                        <th scope="col">Laditud</th>
+                        <th scope="col">Longitud</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Tipo de Moneda </th>
+                        <th scope="col">Antiguedad</th>
+                        <th scope="col">Unidad</th>
+                         <th scope="col">Tipo Inmueble</th>
+                        <th scope="col">Actualizar</th>
+                    </tr>
+                    <tbody  class="table-group-divider">
+                        <tr th:each="inmueble : ${inmuebles}"   >
+                            <td>
+                                <a  th:href="@{/imobiliaria/eliminaInmueble/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </td>
+                            <td th:text="${inmueble.nombre}"></td>
+                            <td th:text="${inmueble.descripcion}"></td>
+                            <td th:text="${inmueble.precio}"></td>
+                            <td th:text="${inmueble.numerorecamara}"></td>
+                            <td th:text="${inmueble.numerobanos}"></td>
+
+                            <td th:text="${inmueble.numeroestacionamientos}"></td>
+                            <td th:text="${inmueble.superficie}"></td>
+                            <td th:text="${inmueble.laditud}"></td>
+                            <td th:text="${inmueble.longitud}"></td>
+                            <td> 
+                                <image th:if="${inmueble.imagen != null}" th:src="'data:img/html;base64,'+${inmueble.imagen}" style="max-width: 60%;max-height: 200px;"></image>
+                                <image th:if="${inmueble.imagen == null}" src="/image/casaDefault.jpg" style="max-width: 60%;max-height: 200px;">    
+                            </td>
+                            <td th:text="${inmueble.moneda.nombre}"></td>
+                            <td th:text="${inmueble.antiguedad.nombre}"></td>
+                            <td th:text="${inmueble.unidad.nombre}"></td>
+                            <td th:text="${inmueble.tipoinmueble.nnombre}"></td>
+                             <td>
+                                <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+    </from>
+    </body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+    </scripy>

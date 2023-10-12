@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
+      layout:decorate="~{layout}"> 
+
+    <body layout:fragment="body"> 
+        <title>Listado de Usuarios</title>
+        <div class="container">    
+            <br>
+            <h1>Lista de Usuarios</h1>
+            <br>
+            <form th:action="@{/usuario/listado}" method="post" th:object="${usuariobusqueda}" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-plus-fill"></i></span>
+                            <input type="text" class="form-control" placeholder="Nombre"  id="nombre" name="nombre" th:field="*{nombre}" />        
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                            <input type="text" class="form-control" placeholder="Apellido Paterno"  id="apellidopaterno" name="apellidopaterno" th:field="*{apellidopaterno}" />
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                            <input type="text" class="form-control" placeholder="Apellido Materno" id="apellidoamterno" name="apellidomaterno" th:field="*{apellidomaterno}"  />
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group mb-2">
+                            <input type="submit" value=Buscar class="btn btn-success" /> 
+                        </div>
+
+                    </div>
+                </div> 
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <a  th:href="@{/usuario/form/{idusuario}(idusuario=${0})}" class="btn btn-success">Agregar</a>
+                    </div>
+                </div>
+            </div>
+            <br>
+             <br>
+            <div style="overflow-x: auto;">
+                <table id="dataTable" class="table table-striped">
+
+                    <thead class="table-dark">
+                                           
+                        <tr>
+                            <th scope="col">Activo</th> 
+                            <th scope="col">Eliminar</th> 
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Fecha de Nacimiento</th>
+                            <th scope="col">Sexo</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Celular</th>
+                            <th scope="col">Curp</th>
+                            <th scope="col">Direccion</th>
+                            <th scope="col">Colonia</th>
+                            <th scope="col">Municipio</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Pais</th>
+                            <th scope="col">Imagen</th>
+
+                            <th scope="col">Rol</th>
+
+                            <th scope="col">Actualizar</th>
+                        </tr>
+                    </thead>
+                    <tbody  class="table-group-divider">
+                        <tr th:each="usuario : ${usuarios}"   >
+
+
+                            <td>
+                                <div th:if="${usuario.status == 'N'}" class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" th:id="${usuario.idusuario}" onchange="ChangeStatus(this)"> 
+                                </div>
+                                <div th:unless="${usuario.status == 'N'}" class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" th:id="${usuario.idusuario}" onchange="ChangeStatus(this)" checked> 
+                                </div>
+                            </td>
+
+
+                            <td>
+                                 <a th:href="@{/usuario/eliminarusuario/{idusuario}(idusuario=${usuario.idusuario})}" class="btn btn-danger">   
+                                     <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </td>
+
+
+                            <td th:text="${usuario.username}"></td>
+                            <td th:text="${usuario.nombre +' '+ usuario.apellidopaterno + ' '+ usuario.apellidomaterno }" ></td>
+                            <td th:text="${usuario.email}"></td>
+                            <td th:text="${usuario.password}"></td>
+                            <td th:text="${usuario.fechanacimiento}"></td>
+                            <td th:text="${usuario.sexo}"></td>
+                            <td th:text="${usuario.telefono}"></td>
+                            <td th:text="${usuario.celular}"></td>
+                            <td th:text="${usuario.curp}"></td>
+
+                            <td>
+                                <span th:each="direccion : ${direcciones}" th:if="${usuario.idusuario ==direccion.usuario.idusuario}">
+                                    <span th:text="${direccion.calle}+' '+ ${direccion.numerointerior}+' '+${direccion.numeroexterior}"></span>
+                                </span>      
+                            </td>
+
+                            <td>
+                                <span th:each="direccion : ${direcciones}" th:if="${usuario.idusuario ==direccion.usuario.idusuario}">
+                                    <span th:text="${direccion.colonia.nombre}"></span>
+                                </span>      
+                            </td>
+                            <td>
+                                <span th:each="direccion : ${direcciones}" th:if="${usuario.idusuario ==direccion.usuario.idusuario}">
+                                    <span th:text="${direccion.colonia.municipio.nombre}"></span>
+                                </span>      
+                            </td>
+                            <td>
+                                <span th:each="direccion : ${direcciones}" th:if="${usuario.idusuario ==direccion.usuario.idusuario}">
+                                    <span th:text="${direccion.colonia.municipio.estado.nombre}"></span>
+                                </span>      
+                            </td>
+                            <td>
+                                <span th:each="direccion : ${direcciones}" th:if="${usuario.idusuario ==direccion.usuario.idusuario}">
+                                    <span th:text="${direccion.colonia.municipio.estado.pais.nombre}"></span>
+                                </span>      
+                            </td>
+                            <td> 
+                                <image th:if="${usuario.imagen != null}" th:src="'data:img/html;base64,'+${usuario.imagen}" style="max-width: 60%;max-height: 200px;"></image>
+
+                                <image th:if="${usuario.imagen == null}" src="/image/images.png" style="max-width: 60%;max-height: 200px;">    
+
+                            </td>
+
+                            <td th:text="${usuario.rol.nombre}"></td>
+
+                            <td>
+                                <a th:href="@{/usuario/form/{idusuario}(idusuario=${usuario.idusuario})}" class="btn btn-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+
+
+    function ChangeStatus(e) {
+        var idUsuario = e.id;
+        var status = e.checked;
+        $.ajax({
+            type: "GET",
+            url: "/usuario/ChangeStatus",
+            dataType: "json",
+            data: {idUsuario: idUsuario.val(), status: status.val()},
+            success: {},
+            error: function () {
+                alert("Error al obtener el status.");
+            }
+        });
+
+      
+
+ }
+ $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+
+
+</script>
