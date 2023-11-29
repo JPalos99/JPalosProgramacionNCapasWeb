@@ -43,7 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
-
+    int prueba;
     private UsuarioDAOImplementattion usuarioDAOImplementation;
     private DireccionDAOImplemetation direccionDAOImplmentation;
     private RolDAOImplementation rolDAOImplementation;
