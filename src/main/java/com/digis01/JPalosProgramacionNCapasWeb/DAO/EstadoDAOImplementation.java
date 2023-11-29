@@ -30,7 +30,6 @@ public class EstadoDAOImplementation implements IEstadoDAO{
         Estado estado=new Estado();
         TypedQuery<Estado> query= entityManager.createQuery("FROM Estado WHERE pais.idpais = :id", Estado.class);
         query.setParameter("id", idpais);
-//        query.setParameter("id", estado.getPais().getIdpais());
         List<Estado> estados=query.getResultList();
         return estados;
     }

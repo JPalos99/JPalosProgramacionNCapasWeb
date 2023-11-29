@@ -19,6 +19,7 @@ public interface IUsuarioDAO {
    int Add(Usuario usuario);
    void Update(Usuario usuario);
    Usuario GetById(int idusuarioeditable); 
+   Usuario GetByEmail(String email); 
    void Delete(int idusuarioeliminado);
    void ChangeStatus(int idUsuario,boolean status);
    Direccion GetByIdDireccion(int idusuarioeliminado);

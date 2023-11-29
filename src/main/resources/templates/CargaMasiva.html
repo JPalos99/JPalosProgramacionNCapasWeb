@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
+      layout:decorate="~{layout}"> 
+
+    <title>Busqueda</title>
+    <body layout:fragment="body">
+        <h1>Carga Datos</h1>
+        <div class="container mt-5">
+            <form th:action="@{/cargaMasiva/Carga}" th:method="post" enctype="multipart/form-data">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-outline-success"  onclick="toggleButtons()">Carga Masiva</button>
+                </div>
+                <div id="botonesContainer"  style="display: none">
+                    <br>
+                    <div class="row">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+
+                            <button type="button" class="btn btn-outline-info" onclick="TXTInput()">TXT</button>
+                        </div>
+
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-outline-success" onclick="ExcelInput()">Excel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-3"> 
+                        <br>
+                        <div id="InputFileTXT" style="display: none">
+                            <input type="file" id="fileTXT" name="fileTXT" class="md-3" accept="text/plain" onchange="validarArchivoTXT(this)">
+                            <div class="col-md-3">
+                                <br>
+                                <input type="submit" value="Verificar TXT" class="btn btn-info" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
+                        <br>
+                        <div id="InputFileExcel" style="display: none">
+                            <input type="file" id="fileExcel" name="fileExcel" class="md-2" accept=".xls, .xlsx" onchange="validarArchivoExcel(this)">
+
+                            <div class="col-md-3">
+                                <br>
+                                <input type="submit" value="Verificar Excel" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div style="overflow-x: auto;">
+                    <table th:unless="${errores == null}" id="dataTable" class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Fila</th> 
+                                <th scope="col">Errores</th> 
+                            </tr>
+                        </thead>
+                        <tbody  class="table-group-divider">
+                            <tr th:each="error : ${errores}">
+
+                                <td th:text="${error.Row}"></td>
+                                <td th:text="${error.ErrorMessage}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <br>
+            
+            <form th:action="@{/cargaMasiva/GuardarTXT}" th:method="post" enctype="multipart/form-data">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <script th:if="${verificadoExitosoTXT}">
+                        alert('¡Los datos del TXT se han verificado con éxito!');
+                    </script>
+                    
+                    <input th:if="${ValidadoTXT == 1}" type="submit" value="Guardar TXT" class="btn btn-info"  id="InputBottonTXT"/>
+                    <script th:if="${guardadoExitosoTXT}">
+                        alert('¡Los datos del TXT se han guardado con éxito!');
+                    </script>
+                     <script th:if="${guardadoFracasoTXT}">
+                        alert('¡No se han guardado con éxito!');
+                    </script>
+                </div>
+            </form>
+            
+            
+            
+            <form th:action="@{/cargaMasiva/GuardarExcel}" th:method="post" enctype="multipart/form-data">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <script th:if="${verificadoExitoso}">
+                        alert('¡Los datos del Excel se verificarion con éxito!');
+                    </script>
+                    <input th:if="${Validado == 1}" type="submit" value="Guardar Excel" class="btn btn-success"  id="InputBotton"/>
+                    <script th:if="${guardadoExitoso}">
+                        alert('¡Los datos del Excel se guardaron con éxito!');
+                    </script>
+                </div>
+            </form>
+            
+            
+            
+        </div>
+    </body>
+</html>
+
+<script>
+
+    function toggleButtons() {
+        var botonesContainer = document.getElementById("botonesContainer");
+        botonesContainer.style.display = (botonesContainer.style.display === 'none' || botonesContainer.style.display === '') ? 'block' : 'none';
+    }
+
+
+    function ExcelInput() {
+        var inputExcel = document.getElementById("InputFileExcel");
+        inputExcel.style.display = (inputExcel.style.display === 'none' || inputExcel.style.display === '') ? 'block' : 'none';
+    }
+
+    function TXTInput() {
+        var inputTXT = document.getElementById("InputFileTXT");
+        inputTXT.style.display = (inputTXT.style.display === 'none' || inputTXT.style.display === '') ? 'block' : 'none';
+    }
+
+
+    function validarArchivoExcel(input) {
+        var archivo = input.files[0];
+        if (archivo) {
+            var extension = archivo.name.split('.').pop().toLowerCase();
+            if (extension === 'xls' || extension === 'xlsx') {
+
+            } else {
+                alert("Por favor, selecciona un archivo de Excel válido.");
+                input.value = '';
+            }
+        }
+    }
+
+    function validarArchivoTXT(input) {
+        var archivo = input.files[0];
+        if (archivo) {
+            var extension = archivo.name.split('.').pop().toLowerCase();
+            if (extension !== 'txt') {
+                alert("Por favor, selecciona un archivo de texto válido.");
+                input.value = '';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var errores = "${errores}";
+        var guardarBtn = document.getElementById('InputBotton');
+
+        if (errores == null) {
+            guardarBtn.style.display = 'block';
+        }
+    });
+
+
+</script>
+

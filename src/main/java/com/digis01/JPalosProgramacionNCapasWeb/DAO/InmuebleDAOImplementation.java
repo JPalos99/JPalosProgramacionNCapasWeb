@@ -27,10 +27,25 @@ public class InmuebleDAOImplementation implements IInmuebleDAO {
     }
 
     public List<Inmueble> GetAll() {
+
         TypedQuery<Inmueble> query = entityManager.createQuery("FROM Inmueble ", Inmueble.class);
         List<Inmueble> inmuebles = query.getResultList();
+
         return inmuebles;
 
+    }
+
+    @Override
+    public List<Inmueble> GetAll(List<String> lista) {
+        int antiguedadID = Integer.parseInt(lista.get(0));
+        TypedQuery<Inmueble> query = entityManager.createQuery(
+                "SELECT Inmueble.nombre, Inmueble.descripcion " +
+                      "FROM Inmueble " +
+                      "JOIN Inmueble.idantiguedad a " +
+                      "WHERE (:antiguedadID > 0 AND Inmueble.idantiguedad = :antiguedadID) OR (:antiguedadID <= 0 AND Inmueble.idantiguedad != 0)", Inmueble.class);
+        query.setParameter("antiguedadID", antiguedadID);
+        List<Inmueble> inmuebles = query.getResultList();
+        return inmuebles;
     }
 
     @Override
@@ -44,7 +59,7 @@ public class InmuebleDAOImplementation implements IInmuebleDAO {
     @Transactional
     public void Add(Inmueble inmueble) {
         entityManager.persist(inmueble);
-
+    
     }
 
     @Override
@@ -56,7 +71,7 @@ public class InmuebleDAOImplementation implements IInmuebleDAO {
     @Override
     @Transactional
     public void Delete(int idinmuebleeliminado) {
-        Inmueble inmueble=entityManager.find(Inmueble.class,idinmuebleeliminado);
+        Inmueble inmueble = entityManager.find(Inmueble.class, idinmuebleeliminado);
         entityManager.remove(inmueble);
     }
 }

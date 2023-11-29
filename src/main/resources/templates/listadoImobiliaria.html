@@ -1,87 +1,130 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layaout"
       layout:decorate="~{layout}"> 
+
     <body layout:fragment="body"> 
+
+
         <title>Listado de Inmuebles</title>
         <div class="container"> 
-           
-            <br>
+
+
             <h1>Lista de Inmuebles</h1>
-            <br>
+
+            <form th:action="@{/imobiliaria/listado}" method="post" th:object="${inmueblebusqueda}" enctype="multipart/form-data">
+
+
                 <div class="row">
-                    <div class="col-md-4"></div>
                     <div class="col-md-3">
-                        <div class="row">
-                            <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${0})}" class="btn btn-success">Agregar</a>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                            <select class="form-select" aria-label="Default select example" name="idantiguedad" id="ddlAntiguedad"  >
+                                <option value="0">Seleccione la Antiguedad</option>
+                                <option th:each="antiguedad : ${antiguedades}" th:value="${antiguedad.idantiguedad}" th:text="${antiguedad.nombre}"></option>
+                            </select>
                         </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                            <select class="form-select" aria-label="Default select example" name="operacion.idoperacion" id="ddloperacion"  >
+                                <option value="0">Seleccione la Operacion</option>
+                                <option th:each="operacion : ${operaciones}" th:value="${operacion.idoperacion}" th:text="${operacion.nombre}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                            <select class="form-select" aria-label="Default select example" name="servicio.idservicio" id="ddlservicio"  >
+                                <option value="0">Seleccione el Servicio</option>
+                                <option th:each="servicio : ${servicios}" th:value="${servicio.idservicio}" th:text="${servicio.nombre}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                            <select class="form-select" aria-label="Default select example" name="amenidad.idamenidad" id="ddlamenidad"  >
+                                <option value="0">Seleccione la Amenidad</option>
+                                <option th:each="amenidad : ${amenidades}" th:value="${amenidad.idamenidad}" th:text="${amenidad.nombre}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-sort-up"></i></span>
+                            <select class="form-select" aria-label="Default select example" name="tipoinmueble.idtipoinmueble" id="ddlTipoinmueble"  >
+                                <option value="0">Seleccione el Tipo de Inmueble</option>
+                                <option th:each="tipoinmueble : ${tipoinmuebles}" th:value="${tipoinmueble.idtipoinmueble}" th:text="${tipoinmueble.nnombre}"></option>   
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group mb-2">
+                            <input type="submit" value=Buscar class="btn btn-success" onmousedown="Buscar()"/> 
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row md-5"> 
+                    <div class="col-md-3">
+                        <div class="row ">
+                            <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${0})}" class="btn btn-success">Agregar</a>
+
+                        </div>
+                        <br>
                     </div>
                 </div>
                 <br>
-                <table id="myTable" class="table table-dark table-striped">
-                    <tr>
-                        <th scope="col">Eliminar</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Numero de Recamaras</th>
-                        <th scope="col">Numero de Baños</th>
-                        <th scope="col">Numero de Estacionamientos</th>
-                        <th scope="col">Superficie</th>
-                        <th scope="col">Laditud</th>
-                        <th scope="col">Longitud</th>
-                        <th scope="col">Imagen</th>
-                        <th scope="col">Tipo de Moneda </th>
-                        <th scope="col">Antiguedad</th>
-                        <th scope="col">Unidad</th>
-                         <th scope="col">Tipo Inmueble</th>
-                        <th scope="col">Actualizar</th>
-                    </tr>
-                    <tbody  class="table-group-divider">
-                        <tr th:each="inmueble : ${inmuebles}"   >
-                            <td>
-                                <a  th:href="@{/imobiliaria/eliminaInmueble/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-danger">
-                                    <i class="bi bi-trash-fill"></i>
-                                </a>
-                            </td>
-                            <td th:text="${inmueble.nombre}"></td>
-                            <td th:text="${inmueble.descripcion}"></td>
-                            <td th:text="${inmueble.precio}"></td>
-                            <td th:text="${inmueble.numerorecamara}"></td>
-                            <td th:text="${inmueble.numerobanos}"></td>
-
-                            <td th:text="${inmueble.numeroestacionamientos}"></td>
-                            <td th:text="${inmueble.superficie}"></td>
-                            <td th:text="${inmueble.laditud}"></td>
-                            <td th:text="${inmueble.longitud}"></td>
-                            <td> 
-                                <image th:if="${inmueble.imagen != null}" th:src="'data:img/html;base64,'+${inmueble.imagen}" style="max-width: 60%;max-height: 200px;"></image>
-                                <image th:if="${inmueble.imagen == null}" src="/image/casaDefault.jpg" style="max-width: 60%;max-height: 200px;">    
-                            </td>
-                            <td th:text="${inmueble.moneda.nombre}"></td>
-                            <td th:text="${inmueble.antiguedad.nombre}"></td>
-                            <td th:text="${inmueble.unidad.nombre}"></td>
-                            <td th:text="${inmueble.tipoinmueble.nnombre}"></td>
-                             <td>
-                                <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-warning">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </a>
-                            </td>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="row md-4">
+                    <th:block th:each="inmueble : ${inmuebles}">
+                        <div class="col-md-3">
+                            <div class="card" style="width: 20rem;">
+                                <img th:if="${inmueble.imagen != null}" class="card-img-top" th:src="'data:img/html;base64,'+${inmueble.imagen}" style="max-width: 100%;max-height: 200px;"alt="...">
+                                <img th:if="${inmueble.imagen == null}" class="card-img-top"  src="/image/casaDefault.jpg" style="max-width: 100%;max-height: 200px;" alt="...">  
+                                <div class="card-body">
+                                    <p class="card-text" > <strong>Nombre: </strong><span th:text="${inmueble.nombre}"></span></p>
+                                    <p class="card-text" > <strong>Descripcion </strong><span th:text="${inmueble.descripcion}"></span></p>
+                                    <p class="card-text" > <strong>Precio: </strong><span th:text="${inmueble.precio}" ></span></p>
+                                    <p class="card-text" > <strong>Antiguedad: </strong><span th:text="${inmueble.antiguedad.nombre}"></span></p>
+                                    <p class="card-text" > <strong>Numero de Recamaras: </strong><span th:text="${inmueble.numerorecamara}"></span></p>
+                                    <p class="card-text" > <strong>Numero de Estacionamientos </strong><span th:text="${inmueble.numeroestacionamientos}"></span></p>
+                                    <p class="card-text" > <span  <a  th:href="@{/imobiliaria/eliminaInmueble/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-danger">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a> </span> <span <a  th:href="@{/imobiliaria/form/{idinmueble}(idinmueble=${inmueble.idinmueble})}"class="btn btn-warning">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </a>  </span> </p>
+                                </div>
+                            </div>
+                        </div>
+                        </th>
+                </div>
+            </form>
         </div>
-    </from>
     </body>
 </html>
-
 <script>
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
-    </scripy>
+
+
+    function Buscar() {
+
+        var lista = [$("#ddlAntiguedad").val(), $("#ddloperacion").val(), $("#ddlservicio").val(), $("#ddlamenidad").val(), $("#ddlTipoinmueble").val()];
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: "/imobiliaria/prueba",
+            data: JSON.stringify(lista),
+            success: function () {
+                console.log('Respuesta del servidor:');
+            },
+            error: function () {
+                console.log('Error al enviar la lista.');
+            }
+
+        });
+
+    }
+</script>        

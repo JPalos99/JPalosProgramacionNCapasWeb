@@ -74,7 +74,6 @@ public class UsuarioController {
         List<Direccion> direcciones=direccionDAOImplmentation.GetAll();
         model.addAttribute("direcciones",direcciones);
 
-
     return "listadoUsuario";
     }
     
@@ -163,10 +162,7 @@ public class UsuarioController {
         }
     
     @GetMapping("/ChangeStatus")
-    public void ChangeStatus(@RequestParam("idUsuario")int idUsuario,@RequestParam("status")boolean status) {
-        
+    public void ChangeStatus(@RequestParam("idUsuario")int idUsuario,@RequestParam("status")boolean status) {     
         usuarioDAOImplementation.ChangeStatus(idUsuario, status);
     }
-    
-
 }

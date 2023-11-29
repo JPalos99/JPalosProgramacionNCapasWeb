@@ -14,7 +14,7 @@ import java.util.List;
 public interface IInmuebleDAO {
 
     List<Inmueble> GetAll();
-
+    List<Inmueble> GetAll(List<String> lista);
     void Add(Inmueble inmueble);
 
     void Update(Inmueble inmueble);
